@@ -150,28 +150,6 @@ public class HelloController {
                         return values;
                     });
                 }
-				
-				//return cypQuery;
-			    
-			/*} else if (target.equals("SQL")) {
-				XPathSQLListener mylistener = new XPathSQLListener();
-				parser.addParseListener(mylistener);
-                ParseTree tree = parser.main();    // begin parsing at rule main
-            
-                cypQ = sb.append(mylistener.getQuery()).toString();
-
-				System.out.println("-------------------");
-
-		     	System.out.println("Query");
-			    System.out.println(cypQ);
-			    System.out.println();
-
-			
-			    //List<Map<String,Object>> rows = jdbcTemplate.queryForList(cypQ);
-			    //System.out.println(rows.size() + " results");
-
-			    return names;
-			}*/
             
     	} catch (Exception e) {
     		System.out.println("virhe!");
