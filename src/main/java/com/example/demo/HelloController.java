@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.antlr.v4.runtime.*;
@@ -28,6 +29,15 @@ import static org.neo4j.driver.Values.parameters;
 @RestController
 public class HelloController {
 
+	@Value("${spring.neo4j.uri}")
+    private String neo4jUri;
+
+	@Value("${spring.neo4j.authentication.username}")
+    private String neo4jUser;
+
+	@Value("${spring.neo4j.authentication.password}")
+    private String neo4jPassword;
+
 	@Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -40,6 +50,10 @@ public class HelloController {
 	public JSONObject translateXPath(@RequestParam("query") String query) {
 
 		try {
+
+			System.out.println(neo4jUri);
+			System.out.println(neo4jUser);
+			System.out.println(neo4jPassword);
             
             // create a CharStream that reads from standard input
             ANTLRInputStream input = new ANTLRInputStream(query);
@@ -104,9 +118,12 @@ public class HelloController {
             
                 final String cypQuery = sb.append(mylistener.getQuery()).toString();
 				System.out.println(cypQ);
-				
 
-				Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "password"));
+				//"bolt://localhost:7687"
+				//"neo4j"
+				//"password"
+
+				Driver driver = GraphDatabase.driver(neo4jUri, AuthTokens.basic(neo4jUser, neo4jPassword));
 				
 				try (var session = driver.session()) {
                     return session.executeRead(tx -> {

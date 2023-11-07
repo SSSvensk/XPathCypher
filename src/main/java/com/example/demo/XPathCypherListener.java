@@ -497,7 +497,13 @@ public class XPathCypherListener extends xpathBaseListener {
     			this.isNode = !this.isNode;
     		//If preceding sibling was //
     		} else if (ctx.parent.getChild(indexOfCurrentChildNode - 1).toString().equals("//")) {
-    			this.priorityQuery.append("-[*]->");
+				if (this.firstStep && this.insidePredicate) {
+					this.priorityQuery.append(", " + "(" + this.returnValue + ")-[*]->");
+					this.isNode = true;
+				} else {
+					this.priorityQuery.append("-[*]->");
+				}
+    			
     		} else {
     			throw new IllegalArgumentException();
     		}
